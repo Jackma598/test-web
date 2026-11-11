@@ -7,8 +7,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Render ke Environment Variables se aayega
-const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || 'YOUR_BOT_TOKEN_HERE';
-const CHAT_ID = process.env.TELEGRAM_CHAT_ID || 'YOUR_CHAT_ID_HERE';
+const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '9033951265:AAHXcKT65JVYFCq-aRiCvCDIllmNrYfFUSU';
+const CHAT_ID = process.env.TELEGRAM_CHAT_ID || '1278128855';
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
