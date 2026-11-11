@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Form</title>
+    <style>
+        body { background-color: #0a0a0f; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .form-container { background: #151520; padding: 40px; border-radius: 12px; box-shadow: 0 0 20px rgba(0, 242, 255, 0.1); width: 100%; max-width: 400px; border: 1px solid #00f2ff; }
+        h2 { text-align: center; color: #00f2ff; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 2px; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: #aaa; font-size: 0.9rem; }
+        input[type="text"] { width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 6px; outline: none; transition: 0.3s; box-sizing: border-box; }
+        input[type="text"]:focus { border-color: #00f2ff; box-shadow: 0 0 10px rgba(0, 242, 255, 0.2); }
+        button { width: 100%; padding: 14px; background: #00f2ff; color: #000; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 1rem; text-transform: uppercase; }
+        button:hover { background: #00d0dd; box-shadow: 0 0 15px #00f2ff; }
+        #status { text-align: center; margin-top: 15px; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Verification</h2>
+        <form id="dataForm">
+            <div class="input-group">
+                <label>Block A (e.g., ID)</label>
+                <input type="text" id="fieldA" required>
+            </div>
+            <div class="input-group">
+                <label>Block B (e.g., Password)</label>
+                <input type="text" id="fieldB" required>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        document.getElementById('dataForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fieldA = document.getElementById('fieldA').value;
+            const fieldB = document.getElementById('fieldB').value;
+            const status = document.getElementById('status');
+
+            status.innerHTML = 'Sending...';
+            status.style.color = '#ff9d00';
+
+            try {
+                const response = await fetch('/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fieldA, fieldB })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    status.innerHTML = '✅ Data sent successfully.';
+                    status.style.color = '#39ff14';
+                    document.getElementById('dataForm').reset();
+                } else {
+                    status.innerHTML = '❌ Error sending data.';
+                    status.style.color = '#ff3131';
+                }
+            } catch (err) {
+                status.innerHTML = '❌ Network error.';
+                status.style.color = '#ff3131';
+            }
+        });
+    </script>
+</body>
+</html>
